@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# Xsetup - run as root before the login dialog appears
+
+primary_monitor=$(xrandr | grep " connected primary" | awk '{print $1}')
+external_monitor=$(xrandr | grep " connected" | grep -v " primary" | awk '{print $1}' | head -n 1)
+
+if [ -n "$external_monitor" ]; then
+    xrandr --output "$external_monitor" --auto
+    xrandr --output "$primary_monitor" --off
+fi
